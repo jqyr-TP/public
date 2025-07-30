@@ -94,7 +94,7 @@ with col2:
     selected_storey = st.selectbox("Storey", storey,)
     selected_year = st.selectbox("Year of Sale", year_options)
     selected_remaining_lease_years = st.slider("Remaining Lease Years", min_value=1, max_value=99, value=60)
-selected_floor_area_sqm = st.slider("Floor Area (sqm)", min_value=20, max_value=400, value=80, step=1, help="Typical HDB units range between 60–150 sqm")
+selected_floor_area_sqm = st.slider("Floor Area (sqm)", min_value=20, max_value=200, value=80, step=1, help="Typical HDB units range between 60–150 sqm")
 
 
 
