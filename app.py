@@ -3,7 +3,11 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
-# Add headphone-themed background using CSS
+
+
+
+st.title("HDB Resale Price Predictor 🏢")
+
 st.markdown(
     """
     <style>
@@ -28,6 +32,34 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+st.markdown(
+    """
+    ### About This App
+
+    This web application predicts the resale price of HDB flats in Singapore based on historical transaction data. 
+    Select the relevant property details—such as town, flat type, model, storey, year of sale, remaining lease years, and floor area—and click "Predict Price" to get an estimated resale value for the flat.
+    """
+)
+
+st.markdown(
+    """
+    <style>
+    .stMarkdown {
+        color: #FFF;
+        font-size: 18px;
+        line-height: 1.6;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+st.image(
+    "https://www.homeguide.com.sg/wp-content/uploads/2017/09/HDB-Responds-to-Need-for-Flexible-Flat-Layouts-in-Singapore.jpg",
+)
+
+st.markdown("<h2>Predict your HDB Resale Price here</h2>", unsafe_allow_html=True)
+
 # Load the trained model
 model = joblib.load('model.pkl') 
 model_input_columns = joblib.load('model_columns.pkl')
@@ -51,7 +83,6 @@ storey = [col.replace('storey_avg_', '') for col in model.feature_names_in_ if c
 storey = [int(s) for s in storey] if storey else list(range(1, 51))
 
 
-st.title("HDB Resale Price Predictor")
 
 # Collect user input for each feature
 col1, col2 = st.columns(2)
@@ -104,4 +135,36 @@ if st.button("Predict Price", key="predict_button"):
 
 
 if st.checkbox("Show input summary"):
-    st.json(input_dict)
+    st.markdown("### 🔍 Your Selected HDB Flat Details")
+    
+    # Create a summary DataFrame (no one-hot columns, just clean inputs)
+    summary_df = pd.DataFrame({
+        "Feature": [
+            "Town", 
+            "Flat Type", 
+            "Flat Model", 
+            "Storey (approx.)", 
+            "Year of Sale", 
+            "Remaining Lease (years)", 
+            "Floor Area (sqm)"
+        ],
+        "Your Input": [
+            selected_town, 
+            selected_flat_type, 
+            selected_flat_model, 
+            selected_storey, 
+            selected_year, 
+            selected_remaining_lease_years, 
+            selected_floor_area_sqm
+        ]
+    })
+
+    # Use st.dataframe for styled view
+    st.dataframe(summary_df.style.set_properties(**{
+        'background-color': '#f0f0f0',
+        'color': '#000',
+        'border-color': 'black'
+    }).set_table_styles([{
+        'selector': 'th',
+        'props': [('background-color', '#006699'), ('color', 'white')]
+    }]))
