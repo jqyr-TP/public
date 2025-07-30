@@ -133,6 +133,18 @@ if st.button("Predict Price", key="predict_button"):
         unsafe_allow_html=True
     )
 
+st.markdown(
+    """
+    <style>
+    .stMarkdown {
+        color: #FFF;
+        font-size: 18px;
+        line-height: 1.6;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 if st.checkbox("Show input summary"):
     st.markdown("### 🔍 Your Selected HDB Flat Details")
